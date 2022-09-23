@@ -1,0 +1,43 @@
+<meta name='viewport' content='width=device-width, initial-scale=1' />
+
+<style>
+  body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 45px;
+  }
+</style>
+
+<script type='text/javascript'
+        id='MathJax-script'
+        src='{{ mathjax-js }}'></script>
+
+<script type='text/javascript'
+        src='{{ highlight-js }}'></script>
+
+<script type='text/javascript'
+        src='{{ mermaid-js }}'></script>
+
+<script>
+ // Use highlight.js for syntax highlighting on non-mermaid code blocks.
+ hljs.configure({noHighlightRe: /^mermaid$/i});
+ hljs.highlightAll();
+</script>
+
+<script>
+  // Add a "markdown-body" class attribute to the body. We must do this because
+  // the GitHub CSS only applies to a div with the "markdown-body" class.
+  document.addEventListener('DOMContentLoaded', (event) => {
+    document.body.classList.add('markdown-body');
+  });
+</script>
+
+<script>
+mermaid.initialize({
+  theme: '{{ mermaid-theme }}',
+  startOnLoad: true
+});
+</script>
