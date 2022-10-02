@@ -1,11 +1,11 @@
 # markdown-xwidget
 
-Markdown preview using xwidgets. Features:
+Markdown preview using GitHub themes. Features:
 
-- Render markdown using xwidgets
+- Render markdown using GitHub styles
 - Mermaid diagrams
-- Syntax highlighting in code blocks
-- Math with mathjax
+- Syntax highlighting
+- Mathjax
 
 | Light                     | Dark                    |
 |---------------------------|-------------------------|
@@ -89,9 +89,11 @@ default values:
 1. `markdown-xwidget-github-theme`
 
     - The CSS theme used to stylize markdown elements. Valid values are:
-      `light`, `light-colorblind`, `light-high-contrast`, `light-tritanopia`,
-      `dark`, `dark-dimmed`, `dark-colorblind`, `dark-high-contrast`,
-      `dark-tritanopia`.
+      `"light"`, `"light-colorblind"`, `"light-high-contrast"`,
+      `"light-tritanopia"`, `"dark"`, `"dark-dimmed"`, `"dark-colorblind"`,
+      `"dark-high-contrast"`, `"dark-tritanopia"`.
+
+      Default value: `"light"`.
 
 2. `markdown-xwidget-mermaid-theme`
 
@@ -99,10 +101,14 @@ default values:
       documented in mermaid's [Deployable Themes][3]. Valid values are:
       `forest`, `dark`, `default`, `neutral`.
 
+      Default value: `"default"`'.
+
 3. `markdown-xwidget-code-block-theme`
 
     - Theme to apply to fenced code blocks. A valid value is any filename in
       [highlight.js/src/styles][4] (without the `.css` extension).
+
+      Default value: `"default"`.
 
 [3]: https://mermaid-js.github.io/mermaid/#/theming?id=deployable-themes
 [4]: https://github.com/highlightjs/highlight.js/tree/main/src/styles
@@ -113,41 +119,44 @@ See: [examples.md](./doc/examples.md)
 
 ## Devolopment
 
+### Update highlight.js, mermaid, and mathjax
+
 To update the included versions of highlight.js, mermaid, and mathjax, run:
 
 ```sh
 ./scripts/fetch-resources.sh
 ```
 
-The github CSS files in the [resources/github_css](./resources/github_css)
-directory are slightly modified versions of what can be generated from the
-[github-markdown-css][5] project. To generate the CSS, run the
-`gen_github_css.js` script for every theme:
+### Update GitHub CSS
+
+> **Info**
+>
+> This is still a more involved process that I haven't automated. I'm hoping
+> find somewhere else to obtain these CSS files. Someone else _must_ create and
+> maintain files like these! I just haven't found them.
+
+The github CSS files in the [resources/github_css][5] directory are slightly
+modified versions of what can be generated from the [github-markdown-css][6]
+project. To generate the CSS, run the `gen_github_css.js` script for every
+theme:
 
 ```sh
 node ./scripts/gen_github_css.js
 ```
 
 Each run results in a file with two themes. Browsers automatically choose one of
-the two themes, using the [prefers-color-scheme][6] media query.
+the two themes, using the [prefers-color-scheme][7] media query.
 
 I manually split each generated file into two files -- one for each theme -- by
 removing the media query and putting the color variables in a `:root` binding.
 
-TODO: Make this better. Is there another way to obtain those CSS files? Someone
-else must create and maintain files like these.
-
-[5]: https://github.com/sindresorhus/github-markdown-css
-[6]: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
-
-## TODO
-
-- Don't create HTML files that stick around forever. Can the HTML only exist in
-  memory? Or if it has to be a file, can it be in the /tmp dir?
+[5]: ./resources/github_css
+[6]: https://github.com/sindresorhus/github-markdown-css
+[7]: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
 
 ## Inspiration
 
-[Centaur Emacs][7] already provides most of this functionality. I couldn't have
-figured this out without Centaur Emacs!
+[Centaur Emacs][8] paved the way. I couldn't have figured this out without
+Centaur Emacs!
 
-[7]: https://github.com/seagle0128/.emacs.d
+[8]: https://github.com/seagle0128/.emacs.d

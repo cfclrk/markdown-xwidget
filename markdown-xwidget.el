@@ -31,7 +31,7 @@
 (require 'ht)
 (require 'f)
 
-;;;; Variables
+;;;; variables
 
 (defconst markdown-xwidget-directory
   (file-name-directory (if load-in-progress
@@ -40,12 +40,12 @@
   "The package directory of markdown-xwidget.")
 
 (defgroup markdown-xwidget nil
-  "Opinionated default markdown-mode behavior."
+  "Markdown preview using xwidgets."
   :group 'markdown-xwidget)
 
 (defcustom markdown-xwidget-github-theme
   "light"
-  "A GitHub CSS theme to use for rendering markdown documents."
+  "The GitHub CSS theme to use for rendering markdown documents."
   :type '(choice
           (string "light")
           (string "light-colorblind")
@@ -60,20 +60,21 @@
 
 (defcustom markdown-xwidget-code-block-theme
   "github"
-  "A highlight.js CSS theme to use for syntax highlighting in code blocks.
+  "The highlight.js CSS theme to use for syntax highlighting in code blocks.
 The highlight.js themes are defined here:
 https://github.com/highlightjs/highlight.js/tree/main/src/styles"
   :type 'string)
 
 (defcustom markdown-xwidget-mermaid-theme
   "default"
-  "A mermaid theme to use for rendering mermaid diagrams.
+  "The mermaid theme to use for rendering mermaid diagrams.
 Mermaid themes are enumerated here:
 https://mermaid-js.github.io/mermaid/#/theming?id=deployable-themes"
   :type '(choice
-          (string "default")
-          (string "dark")
+          (string "base")
           (string "forest")
+          (string "dark")
+          (string "default")
           (string "neutral"))
   :group 'markdown-xwidget)
 
@@ -102,8 +103,7 @@ project."
 
 ;;;; markdown-mode configuration
 
-(setq markdown-command "multimarkdown"
-      markdown-spaces-after-code-fence 0)
+(setq markdown-command "multimarkdown")
 
 (if (featurep 'xwidget-internal)
     (setq markdown-live-preview-window-function #'markdown-xwidget-preview)
@@ -113,9 +113,9 @@ to obtain Emacs with support for xwidgets."))
 
 ;;;; watchers
 
-;; Whenever the `markdown-xwidget-github-theme' variable changes value (say, through
-;; user customization), we need to update the `markdown-css-paths' variable
-;; (which is defined in `markdown-mode').
+;; Whenever the `markdown-xwidget-github-theme' variable changes value (say,
+;; through user customization), we need to update the `markdown-css-paths'
+;; variable (which is defined in `markdown-mode').
 
 (add-variable-watcher 'markdown-xwidget-github-theme
  (lambda (_ newval _ _)
@@ -144,9 +144,10 @@ to obtain Emacs with support for xwidgets."))
      ;; Add the new theme
      (add-to-list 'markdown-css-paths new-theme))))
 
-;; Whenever the `markdown-xwidget-mermaid-theme' variable changes value (say, through
-;; user customization), we need to update the `markdown-xwidget-header-html' variable
-;; to include a link to the new mermaid CSS file.
+;; Whenever the `markdown-xwidget-mermaid-theme' variable changes value (say,
+;; through user customization), we need to update the
+;; `markdown-xwidget-header-html' variable to include a link to the new mermaid
+;; CSS file.
 
 (add-variable-watcher
  'markdown-xwidget-mermaid-theme
@@ -171,11 +172,14 @@ to obtain Emacs with support for xwidgets."))
 (defun markdown-xwidget-header-html (mermaid-theme)
   "Return header HTML with all js and MERMAID-THEME templated in.
 Meant for use with `markdown-xwidgethtml-header-content'."
-  (let ((context (ht ("highlight-js"  (markdown-xwidget-resource "highlight.min.js"))
-                     ("mermaid-js"    (markdown-xwidget-resource "mermaid.min.js"))
-                     ("mathjax-js"    (markdown-xwidget-resource "tex-mml-chtml.js"))
-                     ("mermaid-theme" mermaid-theme)))
-        (html-template (f-read-text (markdown-xwidget-resource "header.html"))))
+  (let ((context
+         (ht ("highlight-js"  (markdown-xwidget-resource "highlight.min.js"))
+             ("mermaid-js"    (markdown-xwidget-resource "mermaid.min.js"))
+             ("mathjax-js"    (markdown-xwidget-resource "tex-mml-chtml.js"))
+             ("mermaid-theme" mermaid-theme)))
+
+        (html-template
+         (f-read-text (markdown-xwidget-resource "header.html"))))
 
     ;; Render the HTML from a mustache template
     (mustache-render html-template context)))
