@@ -31,7 +31,7 @@
 (require 'ht)
 (require 'f)
 
-;;;; variables
+;;;; Variables
 
 (defconst markdown-xwidget-directory
   (file-name-directory (if load-in-progress
@@ -41,44 +41,47 @@
 
 (defgroup markdown-xwidget nil
   "Markdown preview using xwidgets."
-  :group 'markdown-xwidget)
+  :group 'markdown-xwidget
+  :prefix "markdown-xwidget-")
 
 (defcustom markdown-xwidget-github-theme
-  "light"
-  "The GitHub CSS theme to use for rendering markdown documents."
+  (if (frame-parameter nil 'background-mode)
+    "dark"
+  "light")
+  "The GitHub CSS theme to use."
   :type '(choice
-          (string "light")
-          (string "light-colorblind")
-          (string "light-high-contrast")
-          (string "light-tritanopia")
-          (string "dark")
-          (string "dark-dimmed")
-          (string "dark-colorblind")
-          (string "dark-high-contrast")
-          (string "dark-tritanopia"))
+          (const "light")
+          (const "light-colorblind")
+          (const "light-high-contrast")
+          (const "light-tritanopia")
+          (const "dark")
+          (const "dark-dimmed")
+          (const "dark-colorblind")
+          (const "dark-high-contrast")
+          (const "dark-tritanopia"))
   :group 'markdown-xwidget)
 
 (defcustom markdown-xwidget-code-block-theme
   "github"
-  "The highlight.js CSS theme to use for syntax highlighting in code blocks.
+  "The highlight.js CSS theme to use in code blocks.
 The highlight.js themes are defined here:
 https://github.com/highlightjs/highlight.js/tree/main/src/styles"
   :type 'string)
 
 (defcustom markdown-xwidget-mermaid-theme
   "default"
-  "The mermaid theme to use for rendering mermaid diagrams.
+  "The mermaid theme to use in mermaid diagrams.
 Mermaid themes are enumerated here:
 https://mermaid-js.github.io/mermaid/#/theming?id=deployable-themes"
   :type '(choice
-          (string "base")
-          (string "forest")
-          (string "dark")
-          (string "default")
-          (string "neutral"))
+          (const "base")
+          (const "forest")
+          (const "dark")
+          (const "default")
+          (const "neutral"))
   :group 'markdown-xwidget)
 
-;;;; functions
+;;;; Functions
 
 (defun markdown-xwidget-preview (file)
   "Preview FILE with xwidget-webkit.
