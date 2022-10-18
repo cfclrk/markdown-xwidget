@@ -81,6 +81,9 @@ https://mermaid-js.github.io/mermaid/#/theming?id=deployable-themes"
           (const "neutral"))
   :group 'markdown-xwidget)
 
+(defvar markdown-xwidget-preview-mode nil
+  "Sentinel variable for command `markdown-xwidget-preview-mode'.")
+
 ;;;; Functions
 
 (defun markdown-xwidget-preview (file)
@@ -104,72 +107,6 @@ project."
   "Return the absolute path to the highlight.js THEME-NAME file."
   (markdown-xwidget-resource (concat "highlight_css/" theme-name ".min.css")))
 
-;;;; markdown-mode configuration
-
-(setq markdown-command "multimarkdown")
-
-(if (featurep 'xwidget-internal)
-    (setq markdown-live-preview-window-function #'markdown-xwidget-preview)
-  (message "You cannot use markdown-xwidget because your Emacs does not
-support xwidgets. See the markdown-xwidget README.md for info about how
-to obtain Emacs with support for xwidgets."))
-
-;;;; watchers
-
-;; Whenever the `markdown-xwidget-github-theme' variable changes value (say,
-;; through user customization), we need to update the `markdown-css-paths'
-;; variable (which is defined in `markdown-mode').
-
-(add-variable-watcher 'markdown-xwidget-github-theme
- (lambda (_ newval _ _)
-   (let ((old-theme (markdown-xwidget-github-css-path
-                     markdown-xwidget-github-theme))
-         (new-theme (markdown-xwidget-github-css-path
-                     newval)))
-     ;; Delete the old theme
-     (setq markdown-css-paths (delete old-theme markdown-css-paths))
-     ;; Add the new theme
-     (add-to-list 'markdown-css-paths new-theme))))
-
-;; Whenever the `markdown-xwidget-code-block-theme' variable changes value (say,
-;; through user customization), we need to update the `markdown-css-paths'
-;; variable (which is defined in `markdown-mode').
-
-(add-variable-watcher
- 'markdown-xwidget-code-block-theme
- (lambda (_ newval _ _)
-   (let ((old-theme (markdown-xwidget-highlightjs-css-path
-                     markdown-xwidget-code-block-theme))
-         (new-theme (markdown-xwidget-highlightjs-css-path
-                     newval)))
-     ;; Delete the old theme
-     (setq markdown-css-paths (delete old-theme markdown-css-paths))
-     ;; Add the new theme
-     (add-to-list 'markdown-css-paths new-theme))))
-
-;; Whenever the `markdown-xwidget-mermaid-theme' variable changes value (say,
-;; through user customization), we need to update the
-;; `markdown-xwidget-header-html' variable to include a link to the new mermaid
-;; CSS file.
-
-(add-variable-watcher
- 'markdown-xwidget-mermaid-theme
- (lambda (_ newval _ _)
-   (setq markdown-xhtml-header-content
-         (markdown-xwidget-header-html newval))))
-
-;;;; markdown-css-paths
-
-;; Set the initial value for `markdown-css-paths'. Its contents will be updated
-;; (via watchers) if you customize `markdown-xwidget-github-theme' or
-;; `markdown-xwidget-code-block-theme'.
-
-(let ((github-theme (markdown-xwidget-github-css-path
-                     markdown-xwidget-github-theme))
-      (code-block-theme (markdown-xwidget-highlightjs-css-path
-                         markdown-xwidget-code-block-theme)))
-  (setq markdown-css-paths (list github-theme code-block-theme)))
-
 ;;;; markdown-xwidgethtml-header-content
 
 (defun markdown-xwidget-header-html (mermaid-theme)
@@ -180,17 +117,47 @@ Meant for use with `markdown-xwidgethtml-header-content'."
              ("mermaid-js"    (markdown-xwidget-resource "mermaid.min.js"))
              ("mathjax-js"    (markdown-xwidget-resource "tex-mml-chtml.js"))
              ("mermaid-theme" mermaid-theme)))
-
         (html-template
          (f-read-text (markdown-xwidget-resource "header.html"))))
 
     ;; Render the HTML from a mustache template
     (mustache-render html-template context)))
 
-;; Set the initial value of `markdown-xwidgethtml-header-content'. This will be
-;; updated via a watcher if `markdown-xwidget-mermaid-theme' is customized.
-(setq markdown-xhtml-header-content
-      (markdown-xwidget-header-html markdown-xwidget-mermaid-theme))
+;;;; Minor mode
+
+;;;###autoload
+(define-minor-mode markdown-xwidget-preview-mode
+  "Enable rendering markdown files using xwidget-webkit.
+When this mode is enabled, we want to:
+
+- Ensure markdown-command is set to multimarkdown
+- Update the markdown-live-preview-window-function to be the xwidgit one
+
+This creates a hook called markdown-xwidget-mode-hook."
+  :global nil
+  :init-value nil
+  (if markdown-xwidget-preview-mode
+      ;; Then turn mode on
+      (let* ((github-theme (markdown-xwidget-github-css-path
+                            markdown-xwidget-github-theme))
+             (code-block-theme (markdown-xwidget-highlightjs-css-path
+                                markdown-xwidget-code-block-theme))
+             (markdown-css-paths (list github-theme code-block-theme))
+             (markdown-command "multimarkdown")
+             (markdown-live-preview-window-function #'markdown-xwidget-preview)
+             (markdown-xhtml-header-content (markdown-xwidget-header-html
+                                             markdown-xwidget-mermaid-theme)))
+
+        ;; TODO: check all the vars
+        ;; TODO: don't continue if these checks fail
+        (if (not (executable-find "multimarkdown"))
+          (user-error "Executable multimarkdown CLI tool not found"))
+        (if (not (featurep 'xwidget-internal))
+          (user-error "This Emacs does not support xwidgets"))
+
+        (markdown-live-preview-mode 1))
+    ;; Else turn mode off
+    (markdown-live-preview-remove)))
 
 (provide 'markdown-xwidget)
 ;;; markdown-xwidget.el ends here

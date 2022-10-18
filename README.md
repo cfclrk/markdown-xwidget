@@ -11,7 +11,7 @@ Markdown preview using GitHub themes. Features:
 |---------------------------|-------------------------|
 | ![light](./doc/light.png) | ![dark](./doc/dark.png) |
 
-These are just two examples; there is a lot more room to customize the theme.
+These are just two examples. There's a lot of room to customize the theme.
 
 ## Prerequisites
 
@@ -30,7 +30,7 @@ These are just two examples; there is a lot more room to customize the theme.
     ;; => nil   ; you don't have xwidgets
     ```
 
-    To install Emacs with xwidget support on MacOS, use [homebrew-emacs-plus][1]:
+    To install Emacs with xwidget support on MacOS, check out [homebrew-emacs-plus][1]:
 
     ```sh
     brew tap d12frosted/emacs-plus
@@ -43,9 +43,6 @@ These are just two examples; there is a lot more room to customize the theme.
 
     [multimarkdown][2] is a CLI tool that transforms markdown into HTML
     (similar to `pandoc`). You just have to have it installed.
-
-[1]: https://github.com/d12frosted/homebrew-emacs-plus
-[2]: https://fletcher.github.io/MultiMarkdown-6/
 
 ## Installation
 
@@ -110,9 +107,6 @@ default values:
 
       Default value: `"default"`.
 
-[3]: https://mermaid-js.github.io/mermaid/#/theming?id=deployable-themes
-[4]: https://github.com/highlightjs/highlight.js/tree/main/src/styles
-
 ### Examples
 
 See: [examples.md](./doc/examples.md)
@@ -129,8 +123,7 @@ To update the included versions of highlight.js, mermaid, and mathjax, run:
 
 ### Update GitHub CSS
 
-> **Info**
->
+> **Note**
 > This is still a more involved process that I haven't automated. I'm hoping
 > find somewhere else to obtain these CSS files. Someone else _must_ create and
 > maintain files like these! I just haven't found them.
@@ -150,13 +143,27 @@ the two themes, using the [prefers-color-scheme][7] media query.
 I manually split each generated file into two files -- one for each theme -- by
 removing the media query and putting the color variables in a `:root` binding.
 
-[5]: ./resources/github_css
-[6]: https://github.com/sindresorhus/github-markdown-css
-[7]: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
-
 ## Inspiration
 
 [Centaur Emacs][8] paved the way. I couldn't have figured this out without
 Centaur Emacs!
 
+## TODO
+
+- Update examples
+- Add quelpa installation example
+- Make user use customize-set-variable instead of using watchers.
+- Don't scroll to top of page every time it re-renders. This might be an xwidget-webkit deficiency
+  right now.
+- Scroll lock
+- Render GitHub note/warning blocks
+- Render GitHub emojis. E.g. see the emoji-cheat-sheet.
+
+[1]: https://github.com/d12frosted/homebrew-emacs-plus
+[2]: https://fletcher.github.io/MultiMarkdown-6/
+[3]: https://mermaid-js.github.io/mermaid/#/theming?id=deployable-themes
+[4]: https://github.com/highlightjs/highlight.js/tree/main/src/styles
+[5]: ./resources/github_css
+[6]: https://github.com/sindresorhus/github-markdown-css
+[7]: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
 [8]: https://github.com/seagle0128/.emacs.d
