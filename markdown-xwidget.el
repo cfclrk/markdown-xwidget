@@ -111,7 +111,7 @@ project."
 
 (defun markdown-xwidget-header-html (mermaid-theme)
   "Return header HTML with all js and MERMAID-THEME templated in.
-Meant for use with `markdown-xwidgethtml-header-content'."
+Meant for use with `markdown-xtml-header-content'."
   (let ((context
          (ht ("highlight-js"  (markdown-xwidget-resource "highlight.min.js"))
              ("mermaid-js"    (markdown-xwidget-resource "mermaid.min.js"))
@@ -125,21 +125,10 @@ Meant for use with `markdown-xwidgethtml-header-content'."
 
 ;;;; Minor mode
 
-;;;###autoload
-(define-minor-mode markdown-xwidget-preview-mode
-  "Enable rendering markdown files using xwidget-webkit.
-When this mode is enabled, we want to:
-
-- Ensure markdown-command is set to multimarkdown
-- Update the markdown-live-preview-window-function to be the xwidgit one
-
-This creates a hook called markdown-xwidget-mode-hook."
-  :global nil
-  :init-value nil
-  (if markdown-xwidget-preview-mode
-      ;; Then turn mode on
-      (let* ((github-theme (markdown-xwidget-github-css-path
-                            markdown-xwidget-github-theme))
+(defun markdown-xwidget-preview-mode--enable ()
+  "Enable `markdown-xwidget-preview-mode'."
+  (let* ((github-theme (markdown-xwidget-github-css-path
+                        markdown-xwidget-github-theme))
              (code-block-theme (markdown-xwidget-highlightjs-css-path
                                 markdown-xwidget-code-block-theme))
              (markdown-css-paths (list github-theme code-block-theme))
@@ -148,14 +137,28 @@ This creates a hook called markdown-xwidget-mode-hook."
              (markdown-xhtml-header-content (markdown-xwidget-header-html
                                              markdown-xwidget-mermaid-theme)))
 
-        ;; TODO: check all the vars
-        ;; TODO: don't continue if these checks fail
-        (if (not (executable-find "multimarkdown"))
-          (user-error "Executable multimarkdown CLI tool not found"))
         (if (not (featurep 'xwidget-internal))
           (user-error "This Emacs does not support xwidgets"))
+        (if (not (executable-find markdown-command))
+          (user-error "Executable multimarkdown CLI tool not found"))
 
-        (markdown-live-preview-mode 1))
+        (markdown-live-preview-mode 1)))
+
+;;;###autoload
+(define-minor-mode markdown-xwidget-preview-mode
+  "Enable rendering markdown files using xwidget-webkit.
+Enabling this mode:
+
+- temporarily sets many `markdown-mode' variables related to
+  rendering
+- turns on `markdown-live-preview-mode'
+
+Disabling the mode turns off `markdown-live-preview-mode'."
+  :global nil
+  :init-value nil
+  (if markdown-xwidget-preview-mode
+      ;; Then turn mode on
+      (markdown-xwidget-preview-mode--enable)
     ;; Else turn mode off
     (markdown-live-preview-remove)))
 

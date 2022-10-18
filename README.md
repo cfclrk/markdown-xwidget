@@ -1,6 +1,6 @@
 # markdown-xwidget
 
-Markdown preview using GitHub themes. Features:
+An Emacs minor mode to preview markdown files using [xwidget-webkit][1]. Features:
 
 - Render markdown using GitHub styles
 - Mermaid diagrams
@@ -30,7 +30,8 @@ These are just two examples. There's a lot of room to customize the theme.
     ;; => nil   ; you don't have xwidgets
     ```
 
-    To install Emacs with xwidget support on MacOS, check out [homebrew-emacs-plus][1]:
+    To install Emacs with xwidget support on MacOS, check out
+    [homebrew-emacs-plus][2]:
 
     ```sh
     brew tap d12frosted/emacs-plus
@@ -41,8 +42,8 @@ These are just two examples. There's a lot of room to customize the theme.
 
 2. **multimarkdown**
 
-    [multimarkdown][2] is a CLI tool that transforms markdown into HTML
-    (similar to `pandoc`). You just have to have it installed.
+    [multimarkdown][3] is a CLI tool that transforms markdown into HTML (similar
+    to `pandoc`). You just have to have it installed.
 
 ## Installation
 
@@ -95,7 +96,7 @@ default values:
 2. `markdown-xwidget-mermaid-theme`
 
     - The mermaid theme to use when rendering mermaid diagrams. These themes are
-      documented in mermaid's [Deployable Themes][3]. Valid values are:
+      documented in mermaid's [Deployable Themes][4]. Valid values are:
       `forest`, `dark`, `default`, `neutral`.
 
       Default value: `"default"`'.
@@ -103,7 +104,7 @@ default values:
 3. `markdown-xwidget-code-block-theme`
 
     - Theme to apply to fenced code blocks. A valid value is any filename in
-      [highlight.js/src/styles][4] (without the `.css` extension).
+      [highlight.js/src/styles][5] (without the `.css` extension).
 
       Default value: `"default"`.
 
@@ -124,12 +125,12 @@ To update the included versions of highlight.js, mermaid, and mathjax, run:
 ### Update GitHub CSS
 
 > **Note**
-> This is still a more involved process that I haven't automated. I'm hoping
-> find somewhere else to obtain these CSS files. Someone else _must_ create and
-> maintain files like these! I just haven't found them.
+> I haven't automated this because I'm hoping find somewhere else to obtain
+> these CSS files. Someone else _must_ create and maintain files like these! I
+> just haven't found them.
 
-The github CSS files in the [resources/github_css][5] directory are slightly
-modified versions of what can be generated from the [github-markdown-css][6]
+The github CSS files in the [resources/github_css][6] directory are slightly
+modified versions of what can be generated from the [github-markdown-css][7]
 project. To generate the CSS, run the `gen_github_css.js` script for every
 theme:
 
@@ -138,32 +139,34 @@ node ./scripts/gen_github_css.js
 ```
 
 Each run results in a file with two themes. Browsers automatically choose one of
-the two themes, using the [prefers-color-scheme][7] media query.
+the two themes, using the [prefers-color-scheme][8] media query.
 
 I manually split each generated file into two files -- one for each theme -- by
 removing the media query and putting the color variables in a `:root` binding.
 
 ## Inspiration
 
-[Centaur Emacs][8] paved the way. I couldn't have figured this out without
+[Centaur Emacs][9] paved the way. I couldn't have figured this out without
 Centaur Emacs!
 
 ## TODO
 
+- Keymap for enabling mode
+- Refresh xwidget whenever user changes theme with customize-set-variable.
 - Update examples
 - Add quelpa installation example
-- Make user use customize-set-variable instead of using watchers.
-- Don't scroll to top of page every time it re-renders. This might be an xwidget-webkit deficiency
-  right now.
+- Don't scroll to top of page every time it re-renders. This might be an
+  xwidget-webkit deficiency right now.
 - Scroll lock
 - Render GitHub note/warning blocks
 - Render GitHub emojis. E.g. see the emoji-cheat-sheet.
 
-[1]: https://github.com/d12frosted/homebrew-emacs-plus
-[2]: https://fletcher.github.io/MultiMarkdown-6/
-[3]: https://mermaid-js.github.io/mermaid/#/theming?id=deployable-themes
-[4]: https://github.com/highlightjs/highlight.js/tree/main/src/styles
-[5]: ./resources/github_css
-[6]: https://github.com/sindresorhus/github-markdown-css
-[7]: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
-[8]: https://github.com/seagle0128/.emacs.d
+[1]: https://www.gnu.org/software/emacs/manual/html_node/emacs/Embedded-WebKit-Widgets.html
+[2]: https://github.com/d12frosted/homebrew-emacs-plus
+[3]: https://fletcher.github.io/MultiMarkdown-6/
+[4]: https://mermaid-js.github.io/mermaid/#/theming?id=deployable-themes
+[5]: https://github.com/highlightjs/highlight.js/tree/main/src/styles
+[6]: ./resources/github_css
+[7]: https://github.com/sindresorhus/github-markdown-css
+[8]: https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
+[9]: https://github.com/seagle0128/.emacs.d
