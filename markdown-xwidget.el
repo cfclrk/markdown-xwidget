@@ -129,28 +129,29 @@ Meant for use with `markdown-xtml-header-content'."
   "Enable `markdown-xwidget-preview-mode'."
   (let* ((github-theme (markdown-xwidget-github-css-path
                         markdown-xwidget-github-theme))
-             (code-block-theme (markdown-xwidget-highlightjs-css-path
-                                markdown-xwidget-code-block-theme))
-             (markdown-css-paths (list github-theme code-block-theme))
-             (markdown-command "multimarkdown")
-             (markdown-live-preview-window-function #'markdown-xwidget-preview)
-             (markdown-xhtml-header-content (markdown-xwidget-header-html
-                                             markdown-xwidget-mermaid-theme)))
+         (code-block-theme (markdown-xwidget-highlightjs-css-path
+                            markdown-xwidget-code-block-theme))
+         (markdown-css-paths (list github-theme code-block-theme))
+         (markdown-command "multimarkdown")
+         (markdown-live-preview-window-function #'markdown-xwidget-preview)
+         (markdown-xhtml-header-content (markdown-xwidget-header-html
+                                         markdown-xwidget-mermaid-theme)))
 
         (if (not (featurep 'xwidget-internal))
           (user-error "This Emacs does not support xwidgets"))
         (if (not (executable-find markdown-command))
-          (user-error "Executable multimarkdown CLI tool not found"))
+            (user-error
+             (format "Executable %s CLI tool not found" markdown-command)))
 
         (markdown-live-preview-mode 1)))
 
 ;;;###autoload
 (define-minor-mode markdown-xwidget-preview-mode
-  "Enable rendering markdown files using xwidget-webkit.
+  "Enable previewing markdown files using xwidget-webkit.
 Enabling this mode:
 
 - temporarily sets many `markdown-mode' variables related to
-  rendering
+  rendering/previewing
 - turns on `markdown-live-preview-mode'
 
 Disabling the mode turns off `markdown-live-preview-mode'."
