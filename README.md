@@ -87,12 +87,11 @@ The `:bind` directive is not strictly necessary, but it conveniently lets you la
 
 ## Usage
 
-After installing markdown-xwidget, open a markdown file and then run `M-x
-markdown-xwidget-preview-mode`. See the installation documentation above for an
-example of creating a keybinding for that command in `markdown-command-map`.
+Open a markdown file and then run `M-x markdown-xwidget-preview-mode` to toggle
+the live-preview on or off.
 
-You can run the same command again to kill the live-preview window, or just run
-the standard `kill-buffer` (<kbd>C-x k</kbd>) right in the xwidget buffer.
+See the installation documentation above for an example of creating a keybinding
+for that command in `markdown-command-map`.
 
 ## Configuration
 
@@ -170,27 +169,22 @@ removing the media query and putting the color variables in a `:root` binding.
 
 ## See Also
 
-- [grip-mode][grip-mode]
+- [grip-mode][grip-mode] -- Grip-mode makes an API request to GitHub every time
+  re-rendering is needed. The benefit is that you get _exactly_ what GitHub
+  would show. This requires an internet connection, a round-trip to GitHub for
+  every change, and there is very little potential for customizing the HTML.
 
-  grip-mode makes an API request to GitHub every time re-rendering is needed.
-  The benefit is that you get _exactly_ what GitHub would show. A potential
-  drawback is that this requires an internet connection, a round-trip to GitHub
-  for every change, and there is very little potential for customizing the HTML.
-
-- [Emacs Application Framework][eaf]
-
-  EAF extends Emacs to be able to use Python and Javascript functions, which
-  somehow allows it run a browser and other really cool-looking stuff within
-  Emacs.
+- [Emacs Application Framework][eaf] -- EAF extends Emacs to be able to use
+  Python and Javascript functions, which somehow allows it run a browser and
+  other really cool-looking stuff within Emacs.
 
   I haven't used this personally yet, as it's a much bigger change than just
   installing an Emacs package. But based on the examples, its integration with a
   browser is way better than what I've experienced with xwidget-webkit.
 
-- [Centaur Emacs][centaur]
-
-  Centaur Emacs was the first implementation I found for viewing rendered
-  markdown with xwidget-webkit, and helped me understand how to accomplish that.
+- [Centaur Emacs][centaur] -- Centaur Emacs was the first implementation I found
+  for viewing rendered markdown with xwidget-webkit, and helped me understand
+  how to accomplish that.
 
 [grip-mode]: https://github.com/seagle0128/grip-mode
 [eaf]: https://github.com/emacs-eaf/emacs-application-framework
@@ -199,7 +193,10 @@ removing the media query and putting the color variables in a `:root` binding.
 ## TODO
 
 - Add quelpa installation example
-- Don't scroll to top of page every time it re-renders. This might be an
-  xwidget-webkit deficiency right now.
+- Can pandoc work?
+- xwidget buffer scrolls to top of page every time it refreshes, which is super
+  annoying. Any way around that? This might be an xwidget-webkit deficiency
+  right now.
+- Is there a way to make killing the xwidet buffer disable the minor mode?
 - Render GitHub note/warning blocks. How does GitHub do this?
 - Render GitHub emojis. E.g. see the emoji-cheat-sheet. How does GitHub do this?
