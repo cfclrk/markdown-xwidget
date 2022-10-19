@@ -125,25 +125,63 @@ Meant for use with `markdown-xtml-header-content'."
 
 ;;;; Minor mode
 
+(defvar markdown-xwidget--markdown-css-paths-original
+  markdown-css-paths)
+(defvar markdown-xwidget--markdown-command-original
+  markdown-command)
+(defvar markdown-xwidget--markdown-live-preview-window-function-original
+  markdown-live-preview-window-function)
+(defvar markdown-xwidget--markdown-xhtml-header-content-original
+  markdown-xhtml-header-content)
+
 (defun markdown-xwidget-preview-mode--enable ()
   "Enable `markdown-xwidget-preview-mode'."
-  (let* ((github-theme (markdown-xwidget-github-css-path
-                        markdown-xwidget-github-theme))
-         (code-block-theme (markdown-xwidget-highlightjs-css-path
-                            markdown-xwidget-code-block-theme))
-         (markdown-css-paths (list github-theme code-block-theme))
-         (markdown-command "multimarkdown")
-         (markdown-live-preview-window-function #'markdown-xwidget-preview)
-         (markdown-xhtml-header-content (markdown-xwidget-header-html
-                                         markdown-xwidget-mermaid-theme)))
+  (if (not (featurep 'xwidget-internal))
+      (user-error "This Emacs does not support xwidgets"))
+  (if (not (executable-find "multimarkdown"))
+      (user-error
+       (format "Executable %s CLI tool not found" markdown-command)))
 
-        (if (not (featurep 'xwidget-internal))
-          (user-error "This Emacs does not support xwidgets"))
-        (if (not (executable-find markdown-command))
-            (user-error
-             (format "Executable %s CLI tool not found" markdown-command)))
+  (let ((github-theme (markdown-xwidget-github-css-path
+                       markdown-xwidget-github-theme))
+        (code-block-theme (markdown-xwidget-highlightjs-css-path
+                           markdown-xwidget-code-block-theme))
+        (header-html (markdown-xwidget-header-html
+                      markdown-xwidget-mermaid-theme)))
 
-        (markdown-live-preview-mode 1)))
+    (setq markdown-xwidget--markdown-css-paths-original
+          markdown-css-paths)
+    (setq markdown-css-paths
+          (list github-theme code-block-theme))
+
+    (setq markdown-xwidget--markdown-command-original
+          markdown-command)
+    (setq markdown-command
+          "multimarkdown")
+
+    (setq markdown-xwidget--markdown-live-preview-window-function-original
+          markdown-live-preview-window-function)
+    (setq markdown-live-preview-window-function
+          #'markdown-xwidget-preview)
+
+    (setq markdown-xwidget--markdown-xhtml-header-content-original
+          markdown-xhtml-header-content)
+    (setq markdown-xhtml-header-content
+          header-html))
+
+  (markdown-live-preview-mode 1))
+
+(defun markdown-xwidget-preview-mode--disable ()
+  "Disable `markdown-xwidget-preview-mode'."
+  (setq markdown-css-paths
+        markdown-xwidget--markdown-css-paths-original)
+  (setq markdown-command
+        markdown-xwidget--markdown-command-original)
+  (setq markdown-live-preview-window-function
+        markdown-xwidget--markdown-live-preview-window-function-original)
+  (setq markdown-xhtml-header-content
+        markdown-xwidget--markdown-xhtml-header-content-original)
+  (markdown-live-preview-remove))
 
 ;;;###autoload
 (define-minor-mode markdown-xwidget-preview-mode
@@ -158,10 +196,8 @@ Disabling the mode turns off `markdown-live-preview-mode'."
   :global nil
   :init-value nil
   (if markdown-xwidget-preview-mode
-      ;; Then turn mode on
       (markdown-xwidget-preview-mode--enable)
-    ;; Else turn mode off
-    (markdown-live-preview-remove)))
+    (markdown-xwidget-preview-mode--disable)))
 
 (provide 'markdown-xwidget)
 ;;; markdown-xwidget.el ends here
