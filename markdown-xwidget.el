@@ -81,6 +81,13 @@ https://mermaid-js.github.io/mermaid/#/theming?id=deployable-themes"
           (const "neutral"))
   :group 'markdown-xwidget)
 
+(defcustom markdown-xwidget-command
+  nil
+  "An executable program to turn markdown into HTML.
+If nil, the value of `markdown-command' will be used."
+  :type '(string :tag "Shell command")
+  :group 'markdown-xwidget)
+
 (defvar markdown-xwidget-preview-mode nil
   "Sentinel variable for command `markdown-xwidget-preview-mode'.")
 
@@ -135,20 +142,24 @@ Meant for use with `markdown-xtml-header-content'."
   markdown-xhtml-header-content)
 
 (defun markdown-xwidget-preview-mode--enable ()
-  "Enable `markdown-xwidget-preview-mode'."
-  (if (not (featurep 'xwidget-internal))
-      (user-error "This Emacs does not support xwidgets"))
-  (if (not (executable-find "multimarkdown"))
-      (user-error
-       (format "Executable %s CLI tool not found" markdown-command)))
-
+  "Enable `markdown-xwidget-preview-mode'.
+This first saves all current values of relevant `markdown-mode'
+variables so that the original values can be restored when
+`markdown-xwidget-preview-mode' is disabled."
   (let ((github-theme (markdown-xwidget-github-css-path
                        markdown-xwidget-github-theme))
         (code-block-theme (markdown-xwidget-highlightjs-css-path
                            markdown-xwidget-code-block-theme))
         (header-html (markdown-xwidget-header-html
-                      markdown-xwidget-mermaid-theme)))
+                      markdown-xwidget-mermaid-theme))
+        (command (or markdown-xwidget-command markdown-command)))
 
+    (if (not (featurep 'xwidget-internal))
+        (user-error "This Emacs does not support xwidgets!"))
+    (if (not (executable-find command))
+        (user-error (format "Executable %s not found" command)))
+
+    ;; All this smells kind of jank. Is there a better way?
     (setq markdown-xwidget--markdown-css-paths-original
           markdown-css-paths)
     (setq markdown-css-paths
@@ -157,7 +168,7 @@ Meant for use with `markdown-xtml-header-content'."
     (setq markdown-xwidget--markdown-command-original
           markdown-command)
     (setq markdown-command
-          "multimarkdown")
+          command)
 
     (setq markdown-xwidget--markdown-live-preview-window-function-original
           markdown-live-preview-window-function)
@@ -172,7 +183,9 @@ Meant for use with `markdown-xtml-header-content'."
   (markdown-live-preview-mode 1))
 
 (defun markdown-xwidget-preview-mode--disable ()
-  "Disable `markdown-xwidget-preview-mode'."
+  "Disable `markdown-xwidget-preview-mode'.
+This restores the original values of relevant `markdown-mode'
+variables."
   (setq markdown-css-paths
         markdown-xwidget--markdown-css-paths-original)
   (setq markdown-command

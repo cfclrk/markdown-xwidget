@@ -22,36 +22,38 @@ This package will not work without the following prerequisites.
 
 1. **Emacs xwidget support**
 
-    This package displays rendered markdown in an xwidget (a embedded chromium
-    browser), which only works if your Emacs was compiled `--with-xwidgets`. If
-    you don't have xwidget support, you're missing out!
+   This package displays rendered markdown in an xwidget (a embedded chromium
+   browser), which only works if your Emacs was compiled `--with-xwidgets`. If
+   you don't have xwidget support, you're missing out!
 
-    To check whether your Emacs supports xwidgets, evaluate this in your
-    `*scratch*` buffer:
+   To check whether your Emacs supports xwidgets, evaluate this in your
+   `*scratch*` buffer:
 
-    ```emacs-lisp
-    (featurep 'xwidget-internal)
-    ;; => t     ; you have xwidgets
-    ;; => nil   ; you don't have xwidgets
-    ```
+   ```emacs-lisp
+   (featurep 'xwidget-internal)
+   ;; => t     ; you have xwidgets
+   ;; => nil   ; you don't have xwidgets
+   ```
 
-    To install Emacs with xwidget support on MacOS, check out
-    [homebrew-emacs-plus][emacsplus]:
+   To install Emacs with xwidget support on MacOS, check out
+   [homebrew-emacs-plus][emacsplus]:
 
-    ```sh
-    brew tap d12frosted/emacs-plus
-    brew install emacs-plus \
-         --with-xwidgets \
-         --with-imagemagick
-    ```
+   ```sh
+   brew tap d12frosted/emacs-plus
+   brew install emacs-plus \
+        --with-xwidgets \
+        --with-imagemagick
+   ```
 
-2. **multimarkdown**
+2. **multimarkdown, pandoc, or similar**
 
-    [multimarkdown][multimarkdown] is a CLI tool that transforms markdown into
-    HTML (similar to `pandoc`). You just have to have it installed.
+   [multimarkdown][multimarkdown] and [pandoc][pandoc] are CLI programs that can
+   create HTML from markdown. You have to have some kind of program like this
+   installed.
 
 [emacsplus]: https://github.com/d12frosted/homebrew-emacs-plus
 [multimarkdown]: https://fletcher.github.io/MultiMarkdown-6
+[pandoc]: https://pandoc.org/
 
 ## Installation
 
@@ -99,34 +101,44 @@ The following variables can be customized, and are shown here along with their
 default values:
 
 ```emacs-lisp
-(setq markdown-xwidget-github-theme "light"
+(setq markdown-xwidget-command nil
+      markdown-xwidget-github-theme "light"
       markdown-xwidget-mermaid-theme "default"
       markdown-xwidget-code-block-theme "default")
 ```
 
-1. `markdown-xwidget-github-theme`
+### markdown-xwidget-command
 
-    - The CSS theme used to stylize markdown elements. Valid values are:
-      `"light"`, `"light-colorblind"`, `"light-high-contrast"`,
-      `"light-tritanopia"`, `"dark"`, `"dark-dimmed"`, `"dark-colorblind"`,
-      `"dark-high-contrast"`, `"dark-tritanopia"`.
+An executable that can turn markdown into HTML. If `nil`, the value of
+`markdown-command` is used (which defaults to the command "markdown"). The value
+can be any string, though some good choices are `"pandoc"` and
+`"multimarkdown"`.
 
-      Default value: `"light"`.
+Default value: `nil`
 
-2. `markdown-xwidget-mermaid-theme`
+### markdown-xwidget-github-theme
 
-    - The mermaid theme to use when rendering mermaid diagrams. These themes are
-      documented in mermaid's [Deployable Themes][m]. Valid values are:
-      `forest`, `dark`, `default`, `neutral`.
+The CSS theme used to stylize markdown elements. Valid values are: `"light"`,
+`"light-colorblind"`, `"light-high-contrast"`, `"light-tritanopia"`, `"dark"`,
+`"dark-dimmed"`, `"dark-colorblind"`, `"dark-high-contrast"`,
+`"dark-tritanopia"`.
 
-      Default value: `"default"`'.
+Default value: `"light"`
 
-3. `markdown-xwidget-code-block-theme`
+### markdown-xwidget-mermaid-theme
 
-    - Theme to apply to fenced code blocks. A valid value is any filename in
-      [highlight.js/src/styles][hjs] (without the `.css` extension).
+The mermaid theme to use when rendering mermaid diagrams. These themes are
+documented in mermaid's [Deployable Themes][m]. Valid values are: `forest`,
+`dark`, `default`, `neutral`.
 
-      Default value: `"default"`.
+Default value: `"default"`'
+
+### markdown-xwidget-code-block-theme
+
+Theme to apply to fenced code blocks. A valid value is any filename in
+[highlight.js/src/styles][hjs] (without the `.css` extension).
+
+Default value: `"default"`
 
 [m]: https://mermaid-js.github.io/mermaid/#/theming?id=deployable-themes
 [hjs]: https://github.com/highlightjs/highlight.js/tree/main/src/styles
