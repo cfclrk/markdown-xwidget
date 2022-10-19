@@ -18,6 +18,8 @@ These are just two examples. There's a lot of room to customize the theme.
 
 ## Prerequisites
 
+This package will not work without the following prerequisites.
+
 1. **Emacs xwidget support**
 
     This package displays rendered markdown in an xwidget (a embedded chromium
@@ -196,7 +198,6 @@ removing the media query and putting the color variables in a `:root` binding.
 
 ## TODO
 
-- Problem with re-rendering! It launches eww when I save the file!
 - Add quelpa installation example
 - Don't scroll to top of page every time it re-renders. This might be an
   xwidget-webkit deficiency right now.

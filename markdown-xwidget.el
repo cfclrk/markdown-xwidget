@@ -181,7 +181,8 @@ Meant for use with `markdown-xtml-header-content'."
         markdown-xwidget--markdown-live-preview-window-function-original)
   (setq markdown-xhtml-header-content
         markdown-xwidget--markdown-xhtml-header-content-original)
-  (markdown-live-preview-remove))
+
+  (markdown-live-preview-mode -1))
 
 ;;;###autoload
 (define-minor-mode markdown-xwidget-preview-mode
