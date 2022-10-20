@@ -45,11 +45,11 @@ This package will not work without the following prerequisites.
         --with-imagemagick
    ```
 
-2. **multimarkdown, pandoc, or similar**
+2. **pandoc, multimarkdown, or similar**
 
-   [multimarkdown][multimarkdown] and [pandoc][pandoc] are CLI programs that can
-   create HTML from markdown. You have to have some kind of program like this
-   installed.
+   [pandoc][pandoc] and [multimarkdown][multimarkdown] are CLI programs that can
+   create HTML from markdown. You need a program like this installed. So far,
+   pandoc has worked best for me.
 
 [emacsplus]: https://github.com/d12frosted/homebrew-emacs-plus
 [multimarkdown]: https://fletcher.github.io/MultiMarkdown-6
@@ -119,16 +119,17 @@ default values:
 ### markdown-xwidget-command
 
 An executable that can turn markdown into HTML. If `nil`, the value of
-`markdown-command` is used (which defaults to the command "markdown"). Some suitable values are `"pandoc"`, `"markdown"`, and `"multimarkdown"`, assuming you have those tools installed. I've had best experience with pandoc.
+`markdown-command` is used (which defaults to the command "markdown"). Some
+suitable values are `"pandoc"`, `"markdown"`, and `"multimarkdown"`, assuming
+you have those tools installed. I've had best experience with pandoc.
 
 Default value: `nil`
 
 ### markdown-xwidget-github-theme
 
-The CSS theme used to stylize markdown elements. Valid values are: `"light"`,
-`"light-colorblind"`, `"light-high-contrast"`, `"light-tritanopia"`, `"dark"`,
-`"dark-dimmed"`, `"dark-colorblind"`, `"dark-high-contrast"`,
-`"dark-tritanopia"`.
+The CSS theme used to stylize markdown elements. Valid values are: `light`,
+`light-colorblind`, `light-high-contrast`, `light-tritanopia`, `dark`,
+`dark-dimmed`, `dark-colorblind`, `dark-high-contrast`, `dark-tritanopia`.
 
 Default value: `"light"`
 
