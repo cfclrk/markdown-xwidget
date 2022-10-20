@@ -150,7 +150,7 @@ Default value: `"default"`
 [m]: https://mermaid-js.github.io/mermaid/#/theming?id=deployable-themes
 [hjs]: https://github.com/highlightjs/highlight.js/tree/main/src/styles
 
-## Devolopment
+## Development
 
 ### Update highlight.js, mermaid, and mathjax
 
