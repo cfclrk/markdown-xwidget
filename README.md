@@ -102,7 +102,7 @@ Open a markdown file and then run `M-x markdown-xwidget-preview-mode` to toggle
 the live-preview on or off.
 
 See the installation documentation above for an example of creating a keybinding
-for that command in `markdown-command-map`.
+for that command in `markdown-mode-command-map`.
 
 ## Configuration
 
