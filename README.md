@@ -59,9 +59,7 @@ This package will not work without the following prerequisites.
 
 Here are some examples of installing and configuring `markdown-xwidget`.
 
-### package.el
-
-TODO. This package is not on MELPA.
+This package is not yet on ELPA/MELPA.
 
 ### straight and use-package
 
@@ -76,16 +74,27 @@ TODO. This package is not on MELPA.
   :bind (:map markdown-mode-command-map
               ("x" . markdown-xwidget-preview-mode))
   :custom
-  (markdown-xwidget-github-theme "dark-dimmed")
-  (markdown-xwidget-mermaid-theme "dark")
-  (markdown-xwidget-code-block-theme "github-dark-dimmed"))
+  (markdown-xwidget-command "pandoc")
+  (markdown-xwidget-github-theme "light")
+  (markdown-xwidget-mermaid-theme "default")
+  (markdown-xwidget-code-block-theme "default"))
 ```
+
+For a fully-working example, see: [straight/init.el][init-straight].
 
 The `:bind` directive is not strictly necessary, but it conveniently lets you launch `markdown-xwidget-preview-mode` using the same key prefix as other markdown commands. By default, this binds <kbd>C-c C-c x</kbd> to launch `markdown-xwidget-preview-mode`.
 
 > **Warning**
-> It's is important to specify the `:files` directive! Without it, the non-elisp
+> It's important to specify the `:files` directive! Without it, the non-elisp
 > files (CSS and HTML) won't be copied to the right place.
+
+[init-straight]: ./doc/installation/straight/init.el
+
+### quelpa
+
+For a fully-working example, see: [quelpa/init.el][init-quelpa].
+
+[init-quelpa]: ./doc/installation/quelpa/init.el
 
 ## Usage
 
@@ -110,9 +119,7 @@ default values:
 ### markdown-xwidget-command
 
 An executable that can turn markdown into HTML. If `nil`, the value of
-`markdown-command` is used (which defaults to the command "markdown"). The value
-can be any string, though some good choices are `"pandoc"` and
-`"multimarkdown"`.
+`markdown-command` is used (which defaults to the command "markdown"). Some suitable values are `"pandoc"`, `"markdown"`, and `"multimarkdown"`, assuming you have those tools installed. I've had best experience with pandoc.
 
 Default value: `nil`
 
@@ -181,12 +188,12 @@ removing the media query and putting the color variables in a `:root` binding.
 
 ## See Also
 
-- [grip-mode][grip-mode] -- Grip-mode makes an API request to GitHub every time
+- [grip-mode][grip-mode] - Grip-mode makes an API request to GitHub every time
   re-rendering is needed. The benefit is that you get _exactly_ what GitHub
   would show. This requires an internet connection, a round-trip to GitHub for
   every change, and there is very little potential for customizing the HTML.
 
-- [Emacs Application Framework][eaf] -- EAF extends Emacs to be able to use
+- [Emacs Application Framework][eaf] - EAF extends Emacs to be able to use
   Python and Javascript functions, which somehow allows it run a browser and
   other really cool-looking stuff within Emacs.
 
@@ -194,7 +201,7 @@ removing the media query and putting the color variables in a `:root` binding.
   installing an Emacs package. But based on the examples, its integration with a
   browser is way better than what I've experienced with xwidget-webkit.
 
-- [Centaur Emacs][centaur] -- Centaur Emacs was the first implementation I found
+- [Centaur Emacs][centaur] - Centaur Emacs was the first implementation I found
   for viewing rendered markdown with xwidget-webkit, and helped me understand
   how to accomplish that.
 
@@ -204,8 +211,6 @@ removing the media query and putting the color variables in a `:root` binding.
 
 ## TODO
 
-- Add quelpa installation example
-- Can pandoc work?
 - xwidget buffer scrolls to top of page every time it refreshes, which is super
   annoying. Any way around that? This might be an xwidget-webkit deficiency
   right now.
