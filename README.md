@@ -22,9 +22,9 @@ This package will not work without the following prerequisites.
 
 1. **Emacs xwidget support**
 
-   This package displays rendered markdown in an xwidget (a embedded chromium
-   browser), which only works if your Emacs was compiled `--with-xwidgets`. If
-   you don't have xwidget support, you're missing out!
+   This package displays rendered markdown in an xwidget (an embedded browser),
+   which only works if your Emacs was compiled `--with-xwidgets`. If you don't
+   have xwidget support, you're missing out!
 
    To check whether your Emacs supports xwidgets, evaluate this in your
    `*scratch*` buffer:
@@ -208,12 +208,3 @@ removing the media query and putting the color variables in a `:root` binding.
 [grip-mode]: https://github.com/seagle0128/grip-mode
 [eaf]: https://github.com/emacs-eaf/emacs-application-framework
 [centaur]: https://github.com/seagle0128/.emacs.d
-
-## TODO
-
-- xwidget buffer scrolls to top of page every time it refreshes, which is super
-  annoying. Any way around that? This might be an xwidget-webkit deficiency
-  right now.
-- Is there a way to make killing the xwidet buffer disable the minor mode?
-- Render GitHub note/warning blocks. How does GitHub do this?
-- Render GitHub emojis. E.g. see the emoji-cheat-sheet. How does GitHub do this?
