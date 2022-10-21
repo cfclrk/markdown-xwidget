@@ -195,7 +195,7 @@ removing the media query and putting the color variables in a `:root` binding.
   every change, and there is very little potential for customizing the HTML.
 
 - [Emacs Application Framework][eaf] - EAF extends Emacs to be able to use
-  Python and Javascript functions, which somehow allows it run a browser and
+  Python and Javascript functions, which somehow allows it to run a browser and
   other really cool-looking stuff within Emacs.
 
   I haven't used this personally yet, as it's a much bigger change than just

@@ -143,9 +143,12 @@ Meant for use with `markdown-xtml-header-content'."
 
 (defun markdown-xwidget-preview-mode--enable ()
   "Enable `markdown-xwidget-preview-mode'.
-This first saves all current values of relevant `markdown-mode'
-variables so that the original values can be restored when
-`markdown-xwidget-preview-mode' is disabled."
+This works by enabling `markdown-live-preview-mode' using
+temporary values for a bunch of `markdown-mode' variables.
+
+This function saves the original values for all relevant
+`markdown-mode' variables, so that the original values can be
+restored again when this mode is disabled."
   (let ((github-theme (markdown-xwidget-github-css-path
                        markdown-xwidget-github-theme))
         (code-block-theme (markdown-xwidget-highlightjs-css-path
@@ -159,33 +162,32 @@ variables so that the original values can be restored when
     (if (not (executable-find command))
         (user-error (format "Executable %s not found" command)))
 
-    ;; All this smells kind of jank. Is there a better way?
+    ;; Temporarily set markdown-css-paths
     (setq markdown-xwidget--markdown-css-paths-original
           markdown-css-paths)
-    (setq markdown-css-paths
-          (list github-theme code-block-theme))
+    (setq markdown-css-paths (list github-theme code-block-theme))
 
+    ;; Temporarily set markdown-command
     (setq markdown-xwidget--markdown-command-original
           markdown-command)
-    (setq markdown-command
-          command)
+    (setq markdown-command command)
 
+    ;; Temporarily set markdown-live-preview-window-function
     (setq markdown-xwidget--markdown-live-preview-window-function-original
           markdown-live-preview-window-function)
-    (setq markdown-live-preview-window-function
-          #'markdown-xwidget-preview)
+    (setq markdown-live-preview-window-function #'markdown-xwidget-preview)
 
+    ;; Temporarily set markdown-xhtml-header-content
     (setq markdown-xwidget--markdown-xhtml-header-content-original
           markdown-xhtml-header-content)
-    (setq markdown-xhtml-header-content
-          header-html))
+    (setq markdown-xhtml-header-content header-html))
 
   (markdown-live-preview-mode 1))
 
 (defun markdown-xwidget-preview-mode--disable ()
   "Disable `markdown-xwidget-preview-mode'.
-This restores the original values of relevant `markdown-mode'
-variables."
+This restores the original values for all the `markdown-mode'
+variables that were set when this mode was enabled."
   (setq markdown-css-paths
         markdown-xwidget--markdown-css-paths-original)
   (setq markdown-command
@@ -206,7 +208,9 @@ Enabling this mode:
   rendering/previewing
 - turns on `markdown-live-preview-mode'
 
-Disabling the mode turns off `markdown-live-preview-mode'."
+Disabling the mode turns off `markdown-live-preview-mode' and
+restores the original values for all relevant `markdown-mode'
+variables."
   :global nil
   :init-value nil
   (if markdown-xwidget-preview-mode
