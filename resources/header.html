@@ -35,33 +35,18 @@
 </script>
 
 <script type="text/javascript">
-  document.addEventListener("DOMContentLoaded", (event) => {
+  document.addEventListener("DOMContentLoaded", () => {
     // Add a "markdown-body" class attribute to the body. We must do this because
     // the GitHub CSS only applies to a div with the "markdown-body" class.
     document.body.classList.add("markdown-body");
 
     // If there's a stored scroll location, restore it.
-    let prevScroll = localStorage.getItem("scrollY");
-    if (!isNaN(prevScroll)) {
-      window.scroll(0, prevScroll);
-      // Sometimes the scroll 'jumps' and doesn't go back to exactly where it
-      // should, this seems to (sometimes) fix that by just scrolling the
-      // missing distance
-      const current = window.scrollY;
-      if (prevScroll != current) window.scrollBy(0, prevScroll - current);
-    }
+    let prevScroll = sessionStorage.getItem("scrollY");
+    if (prevScroll) window.scroll(0, prevScroll);
   });
 
-  // Save new scroll locations on scroll.
-  // See: https://developer.mozilla.org/en-US/docs/Web/API/Document/scroll_event
-  let ticking = false;
-  document.addEventListener("scroll", (event) => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        localStorage.setItem("scrollY", window.scrollY);
-        ticking = false;
-      });
-      ticking = true;
-    }
+  // Save last scroll location before the page unloads.
+  window.addEventListener("beforeunload", () => {
+    sessionStorage.setItem("scrollY", window.scrollY);
   });
 </script>
