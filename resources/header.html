@@ -40,13 +40,22 @@
     // the GitHub CSS only applies to a div with the "markdown-body" class.
     document.body.classList.add("markdown-body");
 
-    // If there's a stored scroll location, restore it.
+    // If there's a stored scroll location, scroll to that location. Otherwise,
+    // the document resets to the top of the page every time it is refreshed.
     let prevScroll = sessionStorage.getItem("scrollY");
     if (prevScroll) window.scroll(0, prevScroll);
   });
 
-  // Save last scroll location before the page unloads.
-  window.addEventListener("beforeunload", () => {
-    sessionStorage.setItem("scrollY", window.scrollY);
+  // Save new scroll locations on scroll.
+  // See: https://developer.mozilla.org/en-US/docs/Web/API/Document/scroll_event
+  let ticking = false;
+  document.addEventListener("scroll", (event) => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        sessionStorage.setItem("scrollY", window.scrollY);
+        ticking = false;
+      });
+      ticking = true;
+    }
   });
 </script>
