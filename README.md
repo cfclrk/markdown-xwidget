@@ -48,12 +48,13 @@ This package will not work without the following prerequisites.
 2. **pandoc, multimarkdown, or similar**
 
    [pandoc][pandoc] and [multimarkdown][multimarkdown] are CLI programs that can
-   create HTML from markdown. You need a program like this installed. So far,
-   pandoc has worked best for me.
+   create HTML from markdown. You need a program like this installed. Note:
+   there is currently [an issue][issue-7] with pandoc and mermaid.
 
 [emacsplus]: https://github.com/d12frosted/homebrew-emacs-plus
 [multimarkdown]: https://fletcher.github.io/MultiMarkdown-6
 [pandoc]: https://pandoc.org/
+[issue-7]: https://github.com/cfclrk/markdown-xwidget/issues/7
 
 ## Installation
 
@@ -121,7 +122,8 @@ default values:
 An executable that can turn markdown into HTML. If `nil`, the value of
 `markdown-command` is used (which defaults to the command "markdown"). Some
 suitable values are `"pandoc"`, `"markdown"`, and `"multimarkdown"`, assuming
-you have those tools installed. I've had best experience with pandoc.
+you have those tools installed. Note: there is currently [an issue][issue-7]
+with pandoc and mermaid.
 
 Default value: `nil`
 
