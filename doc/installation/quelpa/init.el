@@ -39,24 +39,8 @@
 
 (require 'quelpa-use-package)
 
-;;; Editor General
+;;; markdown-xwidget
 ;;  ----------------------------------------------------------------------------
-
-(set-language-environment "UTF-8")
-
-(setq inhibit-splash-screen t ;; Do not show the welcome page
-      make-backup-files nil)  ;; Do not save ~ backup files
-
-;; ⌘ as Meta and ⎇ as Super on MacOS
-(when (eq system-type 'darwin)
-  (setq mac-command-modifier 'meta
-        mac-option-modifier 'super
-        mac-function-modifier 'hyper))
-
-;;; Packages/Modes
-;;  ----------------------------------------------------------------------------
-
-;;;; markdown-xwidget
 
 (use-package markdown-xwidget
   :after markdown-mode
@@ -67,9 +51,8 @@
   :bind (:map markdown-mode-command-map
               ("x" . markdown-xwidget-preview-mode))
   :custom
-  (markdown-xwidget-github-theme "light")
+  (markdown-xwidget-github-theme "light-high-contrast")
   (markdown-xwidget-mermaid-theme "default")
-  (markdown-xwidget-code-block-theme "github-dark-dimmed")
-  (markdown-xwidget-command "pandoc"))
+  (markdown-xwidget-code-block-theme "default"))
 
 ;;; init.el ends here

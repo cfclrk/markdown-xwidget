@@ -1,7 +1,0 @@
-#+TITLE: Installation
-
-The =init.el= files under this directory should be fully-working, minimal
-examples of installing =markdown-xwidget=.
-
-Emacs has no good way of starting up with a custom directory as its source of
-config. The best way I know of to accomplish this is with [[https://github.com/plexus/chemacs2][chemacs2]].

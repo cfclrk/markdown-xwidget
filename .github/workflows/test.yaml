@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    paths-ignore: ['**.md']
+  pull_request:
+    paths-ignore: ['**.md']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up Emacs
+      uses: purcell/setup-emacs@master
+      with:
+        version: "28.2"
+
+    - name: Install Eldev
+      run: |
+        curl -fsSL \
+          https://raw.github.com/doublep/eldev/master/webinstall/github-eldev \
+          | sh
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Lint the project
+      run: |
+        eldev -T lint -f markdown-xwidget.el
