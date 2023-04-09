@@ -160,7 +160,7 @@ Default value: `"default"`
 To update the included versions of highlight.js, mermaid, and mathjax, run:
 
 ```sh
-./scripts/fetch-resources.sh
+./scripts/fetch_resources.sh
 ```
 
 ### Update GitHub CSS
