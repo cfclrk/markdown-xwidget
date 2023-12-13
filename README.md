@@ -47,14 +47,14 @@ This package will not work without the following prerequisites.
 
 2. **pandoc, multimarkdown, or similar**
 
-   [pandoc][pandoc] and [multimarkdown][multimarkdown] are CLI programs that can
-   create HTML from markdown. You need a program like this installed. Note:
-   there is currently [an issue][issue-7] with pandoc and mermaid.
+   [pandoc][] and [multimarkdown][] are CLI programs that can create HTML from
+   markdown. You need a program like this installed. Note: there is currently
+   [an issue][gh-7] with pandoc and mermaid.
 
 [emacsplus]: https://github.com/d12frosted/homebrew-emacs-plus
 [multimarkdown]: https://fletcher.github.io/MultiMarkdown-6
 [pandoc]: https://pandoc.org/
-[issue-7]: https://github.com/cfclrk/markdown-xwidget/issues/7
+[gh-7]: https://github.com/cfclrk/markdown-xwidget/issues/7
 
 ## Installation
 
@@ -62,7 +62,32 @@ Here are some examples of installing and configuring `markdown-xwidget`.
 
 This package is not yet on ELPA/MELPA.
 
-### straight and use-package
+> **Warning**
+> In all examples below, it's important to specify the `:files` directive!
+> Without it, the non-elisp files (CSS and HTML) won't be copied to the right
+> place.
+
+### elpaca
+
+```emacs-lisp
+(use-package markdown-xwidget
+  :after markdown-mode
+  :elpaca (markdown-xwidget
+           :host github
+           :repo "cfclrk/markdown-xwidget"
+           :files (:defaults "resources")))
+```
+
+### doom
+
+```emacs-lisp
+(package! markdown-xwidget
+  :recipe (:host github
+           :repo "cfclrk/markdown-xwidget"
+           :files (:defaults "resources")))
+```
+
+### straight
 
 ```emacs-lisp
 (use-package markdown-xwidget
@@ -71,30 +96,16 @@ This package is not yet on ELPA/MELPA.
              :type git
              :host github
              :repo "cfclrk/markdown-xwidget"
-             :files (:defaults "resources"))
-  :bind (:map markdown-mode-command-map
-              ("x" . markdown-xwidget-preview-mode))
-  :custom
-  (markdown-xwidget-command "pandoc")
-  (markdown-xwidget-github-theme "light")
-  (markdown-xwidget-mermaid-theme "default")
-  (markdown-xwidget-code-block-theme "default"))
+             :files (:defaults "resources")))
 ```
 
 For a fully-working example, see: [straight/init.el][init-straight].
-
-The `:bind` directive is not strictly necessary, but it conveniently lets you launch `markdown-xwidget-preview-mode` using the same key prefix as other markdown commands. By default, this binds <kbd>C-c C-c x</kbd> to launch `markdown-xwidget-preview-mode`.
-
-> **Warning**
-> It's important to specify the `:files` directive! Without it, the non-elisp
-> files (CSS and HTML) won't be copied to the right place.
-
-[init-straight]: ./doc/installation/straight/init.el
 
 ### quelpa
 
 For a fully-working example, see: [quelpa/init.el][init-quelpa].
 
+[init-straight]: ./doc/installation/straight/init.el
 [init-quelpa]: ./doc/installation/quelpa/init.el
 
 ## Usage
@@ -102,8 +113,18 @@ For a fully-working example, see: [quelpa/init.el][init-quelpa].
 Open a markdown file and then run `M-x markdown-xwidget-preview-mode` to toggle
 the live-preview on or off.
 
-See the installation documentation above for an example of creating a keybinding
-for that command in `markdown-mode-command-map`.
+It's handy to bind this to `x` in `markdown-mode-command-map`, as shown below. Then, you can start the markdown preview using <kbd>C-c C-c x</kbd>.
+
+```emacs-lisp
+(use-package markdown-xwidget
+  :after markdown-mode
+  :elpaca (markdown-xwidget
+           :host github
+           :repo "cfclrk/markdown-xwidget"
+           :files (:defaults "resources"))
+  :bind (:map markdown-mode-command-map
+              ("x" . markdown-xwidget-preview-mode)))
+```
 
 ## Configuration
 
