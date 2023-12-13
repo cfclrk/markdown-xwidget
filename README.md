@@ -62,7 +62,7 @@ Here are some examples of installing and configuring `markdown-xwidget`.
 
 This package is not yet on ELPA/MELPA.
 
-> **Warning**
+> [!WARNING]
 > In all examples below, it's important to specify the `:files` directive!
 > Without it, the non-elisp files (CSS and HTML) won't be copied to the right
 > place.
@@ -143,7 +143,7 @@ default values:
 An executable that can turn markdown into HTML. If `nil`, the value of
 `markdown-command` is used (which defaults to the command "markdown"). Some
 suitable values are `"pandoc"`, `"markdown"`, and `"multimarkdown"`, assuming
-you have those tools installed. Note: there is currently [an issue][issue-7]
+you have those tools installed. Note: there is currently [an issue][gh-7]
 with pandoc and mermaid.
 
 Default value: `nil`
@@ -186,7 +186,7 @@ To update the included versions of highlight.js, mermaid, and mathjax, run:
 
 ### Update GitHub CSS
 
-> **Note**
+> [!NOTE]
 > I haven't automated this because I'm hoping find somewhere else to obtain
 > these CSS files. Someone else _must_ create and maintain files like these! I
 > just haven't found them.
