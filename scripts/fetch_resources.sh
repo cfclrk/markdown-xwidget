@@ -34,8 +34,8 @@ done
 
 echo "Downloading highlight.min.js from CDN"
 
-curl \
-    https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/es/highlight.min.js \
+curl -s \
+    https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js \
     > resources/highlight.min.js
 
 echo "Fetching mermaid js"
