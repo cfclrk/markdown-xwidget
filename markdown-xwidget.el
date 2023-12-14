@@ -112,7 +112,7 @@ project."
 
 (defun markdown-xwidget-highlightjs-css-path (theme-name)
   "Return the absolute path to the highlight.js THEME-NAME file."
-  (markdown-xwidget-resource (concat "highlight_css/" theme-name ".min.css")))
+  (markdown-xwidget-resource (concat "highlight_css/" theme-name ".css")))
 
 ;;;; markdown-xwidgethtml-header-content
 
