@@ -155,12 +155,12 @@ restored again when this mode is disabled."
                            markdown-xwidget-code-block-theme))
         (header-html (markdown-xwidget-header-html
                       markdown-xwidget-mermaid-theme))
-        (command (or markdown-xwidget-command markdown-command)))
+        (command (or
+                  markdown-xwidget-command
+                  markdown-command)))
 
     (if (not (featurep 'xwidget-internal))
         (user-error "This Emacs does not support xwidgets!"))
-    (if (not (executable-find command))
-        (user-error (format "Executable %s not found" command)))
 
     ;; Temporarily set markdown-css-paths
     (setq markdown-xwidget--markdown-css-paths-original
@@ -196,7 +196,6 @@ variables that were set when this mode was enabled."
         markdown-xwidget--markdown-live-preview-window-function-original)
   (setq markdown-xhtml-header-content
         markdown-xwidget--markdown-xhtml-header-content-original)
-
   (markdown-live-preview-mode -1))
 
 ;;;###autoload
