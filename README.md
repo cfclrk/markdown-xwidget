@@ -41,8 +41,7 @@ This package will not work without the following prerequisites.
    ```sh
    brew tap d12frosted/emacs-plus
    brew install emacs-plus \
-        --with-xwidgets \
-        --with-imagemagick
+        --with-xwidgets
    ```
 
 2. **pandoc, multimarkdown, or similar**
