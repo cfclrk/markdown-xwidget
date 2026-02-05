@@ -176,7 +176,8 @@ Default value: `"default"`
 
 ### Update highlight.js, mermaid, and mathjax
 
-To update the included versions of highlight.js, mermaid, and mathjax, run:
+This project includes Javascript and CSS resources for highlight.js, mermaid,
+and mathjax. To update those resources, run:
 
 ```sh
 ./scripts/fetch_resources.sh
@@ -184,14 +185,11 @@ To update the included versions of highlight.js, mermaid, and mathjax, run:
 
 ### Update GitHub CSS
 
-> [!NOTE]
-> I haven't automated this because I'm hoping find somewhere else to obtain
-> these CSS files. Someone else _must_ create and maintain files like these! I
-> just haven't found them.
-
-The github CSS files in the [resources/github_css][g] directory are slightly
+The github CSS files, located in [./resources/github_css][g], are slightly
 modified versions of what can be generated from the [github-markdown-css][gmc]
-project. To generate the CSS, run the `gen_github_css.js` script for every
+project.
+
+To generate the CSS, run the `gen_github_css.js` script for every
 theme:
 
 ```sh
@@ -210,23 +208,14 @@ removing the media query and putting the color variables in a `:root` binding.
 
 ## See Also
 
-- [grip-mode][grip-mode] - Grip-mode makes an API request to GitHub every time
+- [grip-mode][] - Grip-mode makes an API request to GitHub every time
   re-rendering is needed. The benefit is that you get _exactly_ what GitHub
   would show. This requires an internet connection, a round-trip to GitHub for
   every change, and there is very little potential for customizing the HTML.
 
-- [Emacs Application Framework][eaf] - EAF extends Emacs to be able to use
-  Python and Javascript functions, which somehow allows it to run a browser and
-  other really cool-looking stuff within Emacs.
-
-  I haven't used this personally yet, as it's a much bigger change than just
-  installing an Emacs package. But based on the examples, its integration with a
-  browser is way better than what I've experienced with xwidget-webkit.
-
-- [Centaur Emacs][centaur] - Centaur Emacs was the first implementation I found
+- [Centaur Emacs][] - Centaur Emacs was the first implementation I found
   for viewing rendered markdown with xwidget-webkit, and helped me understand
   how to accomplish that.
 
 [grip-mode]: https://github.com/seagle0128/grip-mode
-[eaf]: https://github.com/emacs-eaf/emacs-application-framework
-[centaur]: https://github.com/seagle0128/.emacs.d
+[Centaur Emacs]: https://github.com/seagle0128/.emacs.d
