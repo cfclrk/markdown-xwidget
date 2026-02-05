@@ -18,18 +18,21 @@ curl -s -X POST \
      https://highlightjs.org/api/download \
      > "$tempdir/out.zip"
 
-echo "Extracting resource bundle to: $tempdir"
+echo "Wrote highlightjs resource bundle to $tempdir/out.zip"
+
+echo "Extracting highlightjs resource bundle in $tempdir"
 
 unzip -q \
       -d "$tempdir" \
       "$tempdir/out.zip"
 
-d=resources/highlight_css
-css_files=$(find "$tempdir/styles/" ! -name "*.min.css")
-for f in $css_files; do
+echo "Copying highlightjs CSS files to resources/highlight_css"
+
+highlightjs_css_files=$(find "$tempdir/styles/" -type f ! -name "*.min.css")
+for f in $highlightjs_css_files; do
     # Parameter expansion to remove prefix pattern
     file_name="${f##*/}"
-    cp "$f" "$d/$file_name"
+    cp "$f" "resources/highlight_css/$file_name"
 done
 
 echo "Downloading highlight.min.js from CDN"
